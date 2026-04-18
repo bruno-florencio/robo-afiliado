@@ -1,0 +1,523 @@
+{
+  "cookies": [
+    {
+      "name": "msl_tx",
+      "value": "bLBAOOxWUP6nOREC8wEl2vNGYpmUYsJ0",
+      "domain": "www.mercadolivre.com",
+      "path": "/jms/mlb/lgz",
+      "expires": 1776555777.961808,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_mldataSessionId",
+      "value": "b2f1b510-13fd-4a5c-95c6-4d1e4f11db25",
+      "domain": "www.mercadolivre.com",
+      "path": "/jms/mlb/lgz",
+      "expires": 1778344978.081733,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09AKhCRwjFtxtnvihrEvluYaa1Ei2bDpeB0GrsT_2gRel6w1xKVD8caxnCG8wxAsViaiM7cociOAErmy8dhwsDayM",
+      "domain": "www.recaptcha.net",
+      "path": "/recaptcha",
+      "expires": 1792097001.933398,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09AKhCRwh5Bq673usSWugCmGd8Bj4JCEFYsYP6u0hqbnMe1AHwlkT2KDkqSvlfgpO9V5rdEIXrEFwPTxkSFQFOz3k",
+      "domain": "www.google.com",
+      "path": "/recaptcha",
+      "expires": 1792097036.084327,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nonce_sso",
+      "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlBNREhlSGt2WEdPZ2JmWFNXZ2VnMDRzeEVTZG1yV0N1TndKcFl1N3lGUjg9IiwidHlwIjoiSldUIn0.eyJhZG1pbl9vdHAiOmZhbHNlLCJhdXRoX2Zsb3ciOiJhY2Nlc3MiLCJleHAiOjE4NzEyMzk0NzYsImlhdCI6MTc3NjU0NTA3NiwiaXNzIjoidXJuOmF1dGgtc2VydmVyOnNlc3Npb25zIiwianRpIjoiMTliMGMxY2QtNThhNC00NTU4LThkOWQtN2MxYjZlMmI0ZjFmIiwicm9vdF9pZCI6InVybjp1c2VyczozMDA2MTI0NzY0Iiwic2l0ZV9pZCI6Im1sYiIsInNzaSI6ImZkYmU0N2Y3LTYxNDItNDg2YS05ZDdiLTI3NDZkNTAzMTlmYiIsInN1YiI6InVybjp1c2VyczozMzM2NTgzMzgxIn0.wWyBT4LhizDIyxpnAGYzQhZr25K78xL2F2p1BQ5SitoZC05L1RdPYz4HmfXiDWohDOH6VLiy6yvC0kpyCzSx3bb_ObQExIBn-dwjMPZpH1IbH8pKgY-vG0Qg7nQod91xfWy1Zy72b16PAEB7MYj4ZGd_12xbN8MedOYSX_AoZxGbr2Me7dJAVr_ITZygDaSIRvuCzQSFvUKFHLMvbY5CwXZGKyqcgYs1aT1vUTAn7W9nJzrV8N0H77cjO43xGrCvvcGs4OCxq3mXbr3LM4Vthtx_GZVcnMsNh7uZusR1d5Z7k7HVZZAoHSxyZtE2u872uG77P3wUvSNFkaHSBPgfeg",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.592944,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguserid",
+      "value": "tHHTHht97HH70",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.593266,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ftid",
+      "value": "d0Kc4HVniAPqZWsXrQbbpMydWSoBiZ8b-1776544995962",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.593588,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguseridp",
+      "value": "3336583381",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.593836,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orgnickp",
+      "value": "IA20260414204833",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.593979,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ssid",
+      "value": "ghy-041816-tTymyUeUvjynWmT9hYjh42hGTwexXY-__-3006124764-__-1871239476804--RRR_0-RRR_0",
+      "domain": ".mercadolivre.com",
+      "path": "/jms/mlb/",
+      "expires": 1811105058.594215,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_csrf",
+      "value": "PEyiFmpRlilM549_YKr-0Tcn",
+      "domain": "www.mercadolivre.com.br",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_mldataSessionId",
+      "value": "5823a8a2-1952-4e71-92ea-49271d723c19",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1776546859.999706,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_d2id",
+      "value": "aa2b38f4-1daa-4591-9466-b0f65d95796b-n",
+      "domain": ".mercadolivre.com",
+      "path": "/",
+      "expires": 1808080976.961303,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_csrf",
+      "value": "_mbDYW9iyZAVI8_RoGwaM7Md",
+      "domain": "www.mercadolivre.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ftid",
+      "value": "d0Kc4HVniAPqZWsXrQbbpMydWSoBiZ8b-1776544995962",
+      "domain": "www.mercadolivre.com",
+      "path": "/",
+      "expires": 1811104977.961667,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_mldataSessionId",
+      "value": "b2f1b510-13fd-4a5c-95c6-4d1e4f11db25",
+      "domain": ".mercadolivre.com",
+      "path": "/",
+      "expires": 1776546854,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_d2id",
+      "value": "7bd1a67c-ebff-4db4-951e-99825ef34ee6-n",
+      "domain": ".mercadolibre.com",
+      "path": "/",
+      "expires": 1808080978.772525,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "p_dsid",
+      "value": "432ce334-327f-43a6-a9be-3dd7ccb7186c-1776544997287",
+      "domain": "www.mercadolivre.com",
+      "path": "/",
+      "expires": 1811105000.733956,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://mercadolivre.com",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "p_edsid",
+      "value": "88be1507-521c-483f-b87f-4a22ccbbec78-1776544997287",
+      "domain": "www.mercadolivre.com",
+      "path": "/",
+      "expires": 1811105000.734109,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://mercadolivre.com",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "dsid",
+      "value": "3777671c-6cc4-4570-a084-0b92b1f8bbc6-1776545004852",
+      "domain": ".mercadolibre.com",
+      "path": "/",
+      "expires": 1811105010.369385,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "edsid",
+      "value": "04983073-699f-407a-9e1b-d13694273e28-1776545004852",
+      "domain": ".mercadolibre.com",
+      "path": "/",
+      "expires": 1811105010.369752,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "g_state",
+      "value": "{\"i_l\":0,\"i_ll\":1776544999968,\"i_b\":\"DlR9U2DjJDrAMxrkluTBmHqSlZpsH16hqWYVTlBiJIw\",\"i_e\":{\"enable_itp_optimization\":0},\"i_et\":1776544979077}",
+      "domain": "www.mercadolivre.com",
+      "path": "/",
+      "expires": 1792096999,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "x-meli-session-id",
+      "value": "armor.c6cbbf61b2d2666cda111da2cdda1d363083d829ea7360ba035a086a1ac63c3c39c14381da17b0f60c4219198feb2522d648b192cef72074c0bc443c4f1ed0af556189f7f2ba9315a99d90d9fa30949ff8e6d048e8f761e03ada39185de6f38e.52a665e88d8d24f0db4a3f623f859cd4",
+      "domain": ".mercadolivre.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_d2id",
+      "value": "49858a63-f4b8-43a7-aa0e-16ad5feb077a",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105018.24624,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "txid",
+      "value": "byRTpHO0HPnqaUtqAH0jVgXjxMUCjLGN",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "pwfeid",
+      "value": "5d7427d4-1c57-41e6-9d3f-5cce055af35c",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "c_Z2m51t4",
+      "value": "1",
+      "domain": ".www.mercadolivre.com.br",
+      "path": "/",
+      "expires": 1779137018.735927,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ml_ar-browser-check",
+      "value": "047caa96-f549-45fc-bfdf-23ceff1a0895",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c_Z2m51t4",
+      "value": "1",
+      "domain": ".www.mercadolivre.com",
+      "path": "/",
+      "expires": 1779137044.920466,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguserid",
+      "value": "tHHTHht97HH70",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105058.804989,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguseridp",
+      "value": "3336583381",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105058.805159,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orgnickp",
+      "value": "IA20260414204833",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105058.805332,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ssid",
+      "value": "ghy-041816-tTymyUeUvjynWmT9hYjh42hGTwexXY-__-3006124764-__-1871239476804--RRR_0-RRR_0",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105058.805495,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ftid",
+      "value": "d0Kc4HVniAPqZWsXrQbbpMydWSoBiZ8b-1776544995962",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1811105058.805604,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_d2id",
+      "value": "2f46ecaf-e30f-470a-8f04-2ed81d6b471c-n",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1808081059.062266,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguserid",
+      "value": "tHHTHht97HH70",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1811105059.062396,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orgnickp",
+      "value": "IA20260414204833",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1811105059.062467,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ssid",
+      "value": "ghy-041816-tTymyUeUvjynWmT9hYjh42hGTwexXY-__-3006124764-__-1871239476804--RRR_0-RRR_0",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1811105059.062491,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "orguseridp",
+      "value": "3336583381",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1811105059.062557,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ftid",
+      "value": "d0Kc4HVniAPqZWsXrQbbpMydWSoBiZ8b-1776544995962",
+      "domain": ".mercadopago.com.br",
+      "path": "/",
+      "expires": 1811105059.062582,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cp",
+      "value": "26285110",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1779137059.518181,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cookiesPreferencesLogged",
+      "value": "%7B%22userId%22%3A3336583381%2C%22categories%22%3A%7B%22advertising%22%3Atrue%2C%22functionality%22%3Atrue%2C%22performance%22%3Atrue%2C%22traceability%22%3Atrue%7D%7D",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1776546859.999862,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cookiesPreferencesLoggedFallback",
+      "value": "%7B%22userId%22%3A3336583381%2C%22categories%22%3A%7B%22advertising%22%3Atrue%2C%22functionality%22%3Atrue%2C%22performance%22%3Atrue%2C%22traceability%22%3Atrue%7D%7D",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1777149859.999934,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cookiesPreferencesNotLogged",
+      "value": "%7B%22categories%22%3A%7B%22advertising%22%3Atrue%2C%22functionality%22%3Atrue%2C%22performance%22%3Atrue%2C%22traceability%22%3Atrue%7D%7D",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1808101959.999997,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "hide-cookie-banner",
+      "value": "3336583381-COOKIE_PREFERENCES_ALREADY_SET",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": 1776545660.000072,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ml_cart-quantity",
+      "value": "0",
+      "domain": ".mercadolivre.com.br",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.mercadolivre.com.br",
+      "localStorage": [
+        {
+          "name": "_grecaptcha",
+          "value": "09AKhCRwiRhlfSkIFWhH3gmODBF89wcH4EGfUDvO2goI7LRagI2WpMhYb9Vnh98rzfDZTVXleRHnqlJyU1DLiNWRbTiSSzzbGuGw5cJY43fIrEEHkmPCuzVU8ldCO8GGat"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.mercadolivre.com",
+      "localStorage": [
+        {
+          "name": "_grecaptcha",
+          "value": "09AKhCRwi4FSFg58wbeemy4g4cchxZVvT6cXwI-xvbthQZqXsqZyScaPt5y3qPpseuSPTLr0T5EIEhTp7BU7-9KCJ81Dvhvr62nuJhI3DKEu3N34EcWaN_ZeKHYNKi31_i"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.mercadolibre.com",
+      "localStorage": [
+        {
+          "name": "ml_jsuuid",
+          "value": "3dbe749a-b578-4691-8b9e-efdaf3cd1080-1776544997078"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.recaptcha.net",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MTdyeXo5NzE0enRtN3k="
+        },
+        {
+          "name": "rc::f",
+          "value": "0aAGWpGFRgFDsU8WBUi__tUpAwH0uQJqDX_EXxMFxpZnIOowPnJtdRSFE7WE_sQIu5pJKSs3dztP-8KbljSiCUTq0yOEN6"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "cG9hbDhiY3ZuN2Jt"
+        },
+        {
+          "name": "rc::f",
+          "value": "0aAGWpGFQ3Xah8B7mrOxyQCGxj5TAvNBS_Op2V8KNjPMxQYBtftsu-fDy_1dtM_tQ-DqmkHYY"
+        }
+      ]
+    }
+  ]
+}
