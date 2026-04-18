@@ -129,11 +129,18 @@ async function extractProductDetails(page) {
   // Imagem principal
   let imageUrl = await page.locator('#landingImage').getAttribute("src").catch(() => "");
 
+  const cleanNumber = (value) => {
+    if (!value) return undefined;
+    const normalized = String(value).replace(/\./g, "").replace(",", ".");
+    const parsed = Number.parseFloat(normalized.replace(/[^\d.]/g, ""));
+    return Number.isFinite(parsed) ? parsed : undefined;
+  };
+
   return {
     id: title.slice(0, 30),
     title: title.trim(),
-    price: price.trim(),
-    originalPrice: originalPrice.trim(),
+    price: cleanNumber(price),
+    originalPrice: cleanNumber(originalPrice),
     installments: installments.trim(),
     imageUrl,
     url: page.url()

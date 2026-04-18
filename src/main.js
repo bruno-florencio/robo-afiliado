@@ -31,9 +31,6 @@ async function startBot() {
           }
         });
       });
-
-      // Roda APIS caso tenham mais algumas ativas no futuro
-      await runCycle({ config, telegram, historyStore });
     } catch (e) {
       console.error("[Agendador] Erro estrutural no ciclo:", e);
     }
