@@ -1,0 +1,32 @@
+{
+  "brands": [
+    {
+      "id": "perfil-pessoal",
+      "name": "Perfil Pessoal",
+      "niche": "marketing digital e automacao",
+      "tone": "didatico, direto e profissional",
+      "topics": [
+        "bastidores de projetos",
+        "automacao com IA",
+        "marketing de afiliados",
+        "produtividade"
+      ],
+      "channels": [
+        {
+          "network": "linkedin",
+          "enabled": true,
+          "profile": "seu-perfil-linkedin",
+          "goal": "autoridade e networking",
+          "cadence": "3 posts por semana"
+        },
+        {
+          "network": "instagram",
+          "enabled": true,
+          "profile": "seu-perfil-instagram",
+          "goal": "alcance e relacionamento",
+          "cadence": "4 posts por semana"
+        }
+      ]
+    }
+  ]
+}

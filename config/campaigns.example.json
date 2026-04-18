@@ -1,0 +1,81 @@
+{
+  "campaigns": [
+    {
+      "id": "amazon-eletronicos",
+      "enabled": true,
+      "provider": "amazon",
+      "keywords": [
+        "smartwatch",
+        "fone bluetooth",
+        "caixa de som portatil"
+      ],
+      "searchIndex": "All",
+      "minPrice": 80,
+      "maxPrice": 800,
+      "itemCount": 8,
+      "messageTemplate": "Oferta do dia na Amazon",
+      "ctaText": "Ver oferta na Amazon",
+      "sourceLabel": "Amazon Brasil",
+      "disclosureText": "Como afiliado, podemos receber comissao sem custo extra para voce.",
+      "highlights": [
+        "oferta selecionada para o canal",
+        "ideal para quem quer custo-beneficio",
+        "estoque e preco podem mudar a qualquer momento"
+      ],
+      "hashtags": [
+        "oferta",
+        "amazon",
+        "promo"
+      ]
+    },
+    {
+      "id": "mercadolivre-casa",
+      "enabled": true,
+      "provider": "mercadolivre",
+      "keywords": [
+        "air fryer",
+        "cafeteira",
+        "aspirador robo"
+      ],
+      "minPrice": 100,
+      "maxPrice": 1500,
+      "limit": 10,
+      "affiliateMode": "direct_url",
+      "messageTemplate": "Achado do dia no Mercado Livre",
+      "ctaText": "Abrir oferta no Mercado Livre",
+      "sourceLabel": "Mercado Livre",
+      "disclosureText": "Link de afiliado sujeito a disponibilidade da promocao.",
+      "highlights": [
+        "produto encontrado nas ofertas do dia",
+        "bom potencial de procura para canal de promocoes",
+        "valide preco e frete antes de comprar"
+      ],
+      "hashtags": [
+        "mercadolivre",
+        "achado",
+        "promo"
+      ]
+    },
+    {
+      "id": "mercadolivre-manual",
+      "enabled": false,
+      "provider": "mercadolivre",
+      "mode": "manual",
+      "manualProducts": [
+        {
+          "id": "mlb-manual-1",
+          "title": "Produto manual com link de afiliado pronto",
+          "price": 199.9,
+          "originalPrice": 249.9,
+          "url": "https://seu-link-afiliado-aqui.exemplo",
+          "imageUrl": "https://http2.mlstatic.com/D_NQ_NP_2X_000000-MLB00000000000_000000-F.webp"
+        }
+      ],
+      "messageTemplate": "Oferta validada manualmente",
+      "hashtags": [
+        "mercadolivre",
+        "afiliado"
+      ]
+    }
+  ]
+}

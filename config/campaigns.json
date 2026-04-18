@@ -1,0 +1,56 @@
+{
+  "campaigns": [
+    {
+      "id": "amazon-eletronicos",
+      "enabled": true,
+      "provider": "amazon",
+      "keywords": [
+        "smartwatch",
+        "fone bluetooth",
+        "caixa de som portatil"
+      ],
+      "searchIndex": "All",
+      "minPrice": 80,
+      "maxPrice": 800,
+      "itemCount": 8,
+      "messageTemplate": "Oferta do dia na Amazon",
+      "ctaText": "Ver oferta na Amazon",
+      "sourceLabel": "Amazon Brasil",
+      "disclosureText": "Como afiliado, podemos receber comissao sem custo extra para voce.",
+      "highlights": [
+        "oferta selecionada para o canal",
+        "ideal para quem quer custo-beneficio",
+        "estoque e preco podem mudar a qualquer momento"
+      ],
+      "hashtags": [
+        "oferta",
+        "amazon",
+        "promo"
+      ]
+    },
+    {
+      "id": "mercadolivre-casa",
+      "enabled": true,
+      "provider": "mercadolivre",
+      "keywords": [
+        "air fryer",
+        "cafeteira",
+        "aspirador robo"
+      ],
+      "minPrice": 100,
+      "maxPrice": 1500,
+      "limit": 10,
+      "affiliateMode": "direct_url",
+      "messageTemplate": "Oferta do dia no Mercado Livre",
+      "ctaText": "Comprar Agora",
+      "sourceLabel": "Mercado Livre",
+      "disclosureText": "⚠️ Preço e estoque sujeitos a alteração.",
+      "highlights": [],
+      "hashtags": [
+        "mercadolivre",
+        "achado",
+        "promo"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "telegram-affiliate-bot",
+  "version": "1.0.0",
+  "description": "Bot de Telegram para publicar ofertas de afiliado automaticamente.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "run:once": "node src/main.js --once",
+    "mercadolivre:run-once": "node src/agents/mercadolivre-browser.js",
+    "social:plan": "node src/social/index.js",
+    "admin:start": "node src/admin/server.js",
+    "check": "node --check src/main.js && node --check src/providers/amazon-paapi.js && node --check src/providers/mercadolivre.js && node --check src/lib/http.js && node --check src/social/index.js && node --check src/social/config.js && node --check src/admin/server.js && node --check src/admin/auth.js && node --check src/admin/config.js && node --check src/admin/state.js && node --check src/admin/templates.js && node --check src/agents/mercadolivre-browser.js"
+  },
+  "keywords": [
+    "telegram",
+    "affiliate",
+    "amazon",
+    "mercado-livre"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.1",
+    "playwright": "^1.59.1",
+    "zod": "^4.3.6"
+  }
+}
