@@ -1,3 +1,16 @@
 node_modules/
 .env
 data/
+
+# Chaves SSH Oracle Cloud - NUNCA commitar!
+*.key
+*.pem
+*.ppk
+id_rsa
+id_rsa.pub
+ssh-key-*
+
+# Sessões do browser salvas localmente
+*-session.json
+amazon-session.json
+ml-session.json
