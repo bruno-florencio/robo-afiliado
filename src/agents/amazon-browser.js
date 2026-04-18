@@ -81,9 +81,8 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
       let cleanUrl = dealUrl;
       try {
         const fullUrl = new URL(dealUrl, "https://www.amazon.com.br");
-        // Remove referrers de tracking interno
-        fullUrl.searchParams.delete("ref_");
-        fullUrl.searchParams.delete("pd_rd_i");
+        // Remove todos os parametros de rastreamento (ref, pf_rd_r, etc) que a Amazon rotaciona a cada refresh
+        fullUrl.search = ""; 
         cleanUrl = fullUrl.toString();
       } catch (e) { }
 
