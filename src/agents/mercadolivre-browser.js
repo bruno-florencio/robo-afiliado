@@ -416,17 +416,36 @@ async function runMercadoLivreAgent() {
   const offersUrl = env.MERCADOLIVRE_OFFERS_URL || DEFAULT_OFFERS_URL;
   const historyStore = createHistoryStore();
   const telegram = createTelegramClient(env.TELEGRAM_BOT_TOKEN);
-  const userDataDir = path.resolve(process.cwd(), "data/mercadolivre/edge-profile");
-  fs.mkdirSync(userDataDir, { recursive: true });
-  const context = await chromium.launchPersistentContext(userDataDir, {
-    channel: "msedge",
-    headless: false,
+  const isCloud = !!process.env.RENDER || !!process.env.CI || process.env.NODE_ENV === "production";
+  
+  const launchOptions = {
+    headless: isCloud,
     viewport: { width: 1440, height: 960 },
     locale: "pt-BR",
     timezoneId: "America/Sao_Paulo",
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
-  });
+  };
+
+  const sessionPath = path.resolve(process.cwd(), "ml-session.json");
+  const hasSession = fs.existsSync(sessionPath);
+
+  let browser, context;
+
+  if (isCloud || hasSession) {
+    // Na nuvem ou quando temos o passaporte, usamos o Chromium padrão (mais estável no Linux) e injetamos o estado
+    console.log(hasSession ? "[Robô] Usando passaporte/sessão exportado (ml-session.json)" : "[Robô] Iniciando em nuvem sem passaporte.");
+    browser = await chromium.launch({ ...launchOptions, channel: undefined });
+    context = await browser.newContext({ ...launchOptions, storageState: hasSession ? sessionPath : undefined });
+  } else {
+    // Em casa (Windwos Local), rodamos no Edge para reaproveitar os perfis de sessão como você via no teste
+    console.log("[Robô] Entrando em modo Persistent Profile no Edge Local.");
+    const userDataDir = path.resolve(process.cwd(), "data/mercadolivre/edge-profile");
+    fs.mkdirSync(userDataDir, { recursive: true });
+    launchOptions.channel = "msedge";
+    context = await chromium.launchPersistentContext(userDataDir, launchOptions);
+  }
+
   await context.addInitScript(() => {
     Object.defineProperty(navigator, "webdriver", {
       get: () => undefined,
@@ -479,6 +498,9 @@ async function runMercadoLivreAgent() {
     console.log(`Link afiliado: ${affiliateUrl}`);
   } finally {
     await context.close().catch(() => { });
+    if (browser) {
+       await browser.close().catch(() => {});
+    }
   }
 }
 
