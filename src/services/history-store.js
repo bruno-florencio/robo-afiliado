@@ -20,21 +20,36 @@ function createHistoryStore() {
   return {
     hasRecentProduct({ campaignId, productId }) {
       const data = read();
-      return data.sentProducts.some(
-        (item) => item.campaignId === campaignId && item.productId === productId
-      );
+      const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' }); // YYYY-MM-DD
+      
+      return data.sentProducts.some((item) => {
+        if (item.campaignId !== campaignId || item.productId !== productId) return false;
+        if (!item.sentAt) return false;
+        
+        // Se a data de envio original for diferente de hoje na meia noite BR, ele "esquece"
+        const sentDate = new Date(item.sentAt).toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
+        return sentDate === today;
+      });
     },
     remember({ campaignId, productId }) {
       const data = read();
+      const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
+
+      // Limpa coisas de dias anteriores pra não inchar o arquivo e focar só no dia atual
+      const validHistory = data.sentProducts.filter(item => {
+          if (!item.sentAt) return false;
+          const sentDate = new Date(item.sentAt).toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
+          return sentDate === today;
+      });
+
       const nextProducts = [
         {
           campaignId,
           productId,
           sentAt: new Date().toISOString(),
         },
-        ...data.sentProducts.filter(
-          (item) =>
-            !(item.campaignId === campaignId && item.productId === productId)
+        ...validHistory.filter(
+          (item) => !(item.campaignId === campaignId && item.productId === productId)
         ),
       ].slice(0, 200);
 
