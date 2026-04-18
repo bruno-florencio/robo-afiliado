@@ -47,7 +47,7 @@ function formatMessage({ campaign, product }) {
 
   if (price) {
     lines.push(`🔥 POR: <b>${price}</b>`);
-    
+
     if (product.installments) {
       // Limpa os prefixos que os sites já trazem (como 'ou', 'em') para padronizar
       const instClean = product.installments.replace(/^(ou\s+)?(em\s+)?/i, '').trim();

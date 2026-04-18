@@ -39,7 +39,7 @@ async function startBot() {
 
   const intervalMs = config.env.POST_INTERVAL_MINUTES * 60 * 1000;
   console.log(`[Agendador] Loop automático ativado (a cada ${config.env.POST_INTERVAL_MINUTES} minutos).`);
-  
+
   setInterval(() => {
     run().catch(e => console.error("[Agendador] Fatality no motor:", e));
   }, intervalMs);
@@ -52,7 +52,7 @@ async function main() {
 
   // 1. Inicia o painel (Ghost Web Server)
   const { server, env, adminPath } = await createServer();
-  
+
   // Usamos process.env.PORT pois provedores (Render/Railway/Heroku) injetam a porta dinamicamente
   const port = process.env.PORT || env.ADMIN_PORT || 3000;
   const host = "0.0.0.0"; // 0.0.0.0 é vital para Docker e Plataformas de Nuvem
@@ -62,7 +62,7 @@ async function main() {
     if (!process.env.RENDER) {
       console.log(`[Painel] Acesso local via: http://localhost:${port}${adminPath}`);
     }
-    
+
     // 2. Só sobe o Robô se o Painel subiu com estabilidade
     startBot();
   });

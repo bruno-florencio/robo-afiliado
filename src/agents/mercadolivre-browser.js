@@ -22,7 +22,7 @@ async function saveDebugSnapshot(page, name) {
   const dir = ensureDebugDir();
   const safeName = name.replace(/[^\w.-]+/g, "-");
   const screenshotPath = path.join(dir, `${safeName}.png`);
-  await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => {});
+  await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => { });
   return screenshotPath;
 }
 
@@ -107,7 +107,7 @@ async function loginIfNeeded(page, env) {
       'button:has-text("Entrar")',
       'a:has-text("Entre")',
     ]);
-    await page.waitForLoadState("domcontentloaded").catch(() => {});
+    await page.waitForLoadState("domcontentloaded").catch(() => { });
     await page.waitForTimeout(3000);
   }
 
@@ -120,7 +120,7 @@ async function loginIfNeeded(page, env) {
   }
 
   await clickFirst(page, ['button:has-text("Continuar")', 'button[type="submit"]']);
-  await page.waitForLoadState("domcontentloaded").catch(() => {});
+  await page.waitForLoadState("domcontentloaded").catch(() => { });
   await page.waitForTimeout(3000);
 
   await clickFirst(page, [
@@ -129,7 +129,7 @@ async function loginIfNeeded(page, env) {
     'li#password_validation',
     'button:has-text("Senha")',
   ]);
-  await page.waitForLoadState("domcontentloaded").catch(() => {});
+  await page.waitForLoadState("domcontentloaded").catch(() => { });
   await page.waitForTimeout(2000);
 
   const filledPassword = await fillFirst(page, [
@@ -145,14 +145,14 @@ async function loginIfNeeded(page, env) {
   }
 
   await clickFirst(page, ['button:has-text("Entrar")', 'button[type="submit"]']);
-  await page.waitForLoadState("domcontentloaded").catch(() => {});
+  await page.waitForLoadState("domcontentloaded").catch(() => { });
   await page.waitForTimeout(4000);
 
   // Tentativa rapida de preencher o PIN informado se a tela pedir
   const codeSelectors = [
-    'input[name="code"]', 
-    'input[autocomplete="one-time-code"]', 
-    'input[type="tel"]', 
+    'input[name="code"]',
+    'input[autocomplete="one-time-code"]',
+    'input[type="tel"]',
     'input[autocomplete="off"]'
   ];
   try {
@@ -199,7 +199,7 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
             urlObj.search = "";
             urlObj.hash = "";
             cleanUrl = urlObj.toString();
-          } catch (e) {}
+          } catch (e) { }
 
           if (!historyStore.hasRecentProduct({ campaignId, productId: cleanUrl })) {
             productLink = href;
@@ -245,7 +245,7 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
     // Para o preço principal, iteramos nas frações e ignoramos as que são do preço antigo ou parcelamento baixo (menor contextualmente)
     // O meta tag [itemprop="price"] é a fonte mais segura de todas
     const metaPrice = document.querySelector('meta[itemprop="price"]');
-    
+
     // Pega as frações de preço, e ignora as que estão dentro de <s> ou são o original
     const allFractions = document.querySelectorAll('.andes-money-amount__fraction, .price-tag-fraction');
     for (const node of allFractions) {
@@ -306,24 +306,24 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
   const features = await detailPage.evaluate(() => {
     const list = document.querySelectorAll('.ui-vpp-highlighted-specs__features-list li, .ui-pdp-specs__table tbody tr, .ui-pdp-list--bullet li, .ui-pdp-features__list li');
     if (!list || list.length === 0) return [];
-    
+
     const items = [];
     for (const node of list) {
-        if (items.length >= 6) break; // Limitando aos 6 primeiros mais importantes pra não floodar o post
-        
-        // Se for linha de tabela técnica
-        const th = node.querySelector('th');
-        const td = node.querySelector('td span, td');
-        
-        if (th && td) {
-           const key = th.innerText.trim();
-           const val = td.innerText.trim();
-           if (key && val) items.push(`${key}: ${val}`);
-        } else {
-           // Se for lista de bullet ("O que você precisa saber...")
-           const text = node.innerText.trim();
-           if (text && text.length > 2) items.push(text);
-        }
+      if (items.length >= 6) break; // Limitando aos 6 primeiros mais importantes pra não floodar o post
+
+      // Se for linha de tabela técnica
+      const th = node.querySelector('th');
+      const td = node.querySelector('td span, td');
+
+      if (th && td) {
+        const key = th.innerText.trim();
+        const val = td.innerText.trim();
+        if (key && val) items.push(`${key}: ${val}`);
+      } else {
+        // Se for lista de bullet ("O que você precisa saber...")
+        const text = node.innerText.trim();
+        if (text && text.length > 2) items.push(text);
+      }
     }
     return items;
   }).catch(() => []);
@@ -478,7 +478,7 @@ async function runMercadoLivreAgent() {
     console.log(`Produto publicado no Telegram: ${product.title}`);
     console.log(`Link afiliado: ${affiliateUrl}`);
   } finally {
-    await context.close().catch(() => {});
+    await context.close().catch(() => { });
   }
 }
 
