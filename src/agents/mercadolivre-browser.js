@@ -221,8 +221,8 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
   }
 
   const detailPage = await page.context().newPage();
-  await detailPage.goto(productLink, { waitUntil: "domcontentloaded" });
-  await detailPage.waitForTimeout(2000);
+  await detailPage.goto(productLink, { waitUntil: "commit", timeout: 45000 }).catch(e => console.error("Aviso: Timeout no goto, mas seguindo...", e.message));
+  await detailPage.waitForTimeout(4000);
 
   const title = await detailPage
     .locator("h1, .ui-pdp-title")
@@ -423,8 +423,8 @@ async function runMercadoLivreAgent() {
     viewport: { width: 1440, height: 960 },
     locale: "pt-BR",
     timezoneId: "America/Sao_Paulo",
-    userAgent:
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
+    args: ["--disable-blink-features=AutomationControlled", "--no-sandbox", "--disable-setuid-sandbox"]
   };
 
   const sessionPath = path.resolve(process.cwd(), "ml-session.json");
@@ -433,9 +433,9 @@ async function runMercadoLivreAgent() {
   let browser, context;
 
   if (isCloud || hasSession) {
-    // Na nuvem ou quando temos o passaporte, usamos o Chromium padrão (mais estável no Linux) e injetamos o estado
+    // Na nuvem usamos o Chromium padrão, localmente com sessão usamos o Edge
     console.log(hasSession ? "[Robô] Usando passaporte/sessão exportado (ml-session.json)" : "[Robô] Iniciando em nuvem sem passaporte.");
-    browser = await chromium.launch({ ...launchOptions, channel: undefined });
+    browser = await chromium.launch({ ...launchOptions, channel: isCloud ? undefined : "msedge" });
     context = await browser.newContext({ ...launchOptions, storageState: hasSession ? sessionPath : undefined });
   } else {
     // Em casa (Windwos Local), rodamos no Edge para reaproveitar os perfis de sessão como você via no teste

@@ -15,19 +15,19 @@ async function startBot() {
       const { exec } = require("child_process");
       
       exec("npm run mercadolivre:run-once", (error, stdout, stderr) => {
+        if (stdout) console.log(stdout.trim());
+        if (stderr) console.error(stderr.trim());
         if (error) {
           console.error(`[Agendador] Erro no bot do MercadoLivre: ${error.message}`);
-        } else if (stdout) {
-          console.log(stdout.trim());
         }
 
         // Após concluir o Mercado Livre, aciona o da Amazon para não encavalar o processamento
         console.log(`[Agendador] Acionando robô da Amazon (Playwright)...`);
         exec("npm run amazon:run-once", (errorAmz, stdoutAmz, stderrAmz) => {
+          if (stdoutAmz) console.log(stdoutAmz.trim());
+          if (stderrAmz) console.error(stderrAmz.trim());
           if (errorAmz) {
             console.error(`[Agendador] Erro no bot da Amazon: ${errorAmz.message}`);
-          } else if (stdoutAmz) {
-            console.log(stdoutAmz.trim());
           }
         });
       });

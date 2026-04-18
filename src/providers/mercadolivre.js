@@ -27,15 +27,20 @@ async function fetchSearchProducts({ campaign, env }) {
     q: keyword,
     limit: String(campaign.limit || 10),
   });
-  const data = await fetchJson(
-    `https://api.mercadolibre.com/sites/${env.MERCADOLIVRE_SITE_ID}/search?${params.toString()}`,
-    {},
-    "API do Mercado Livre"
-  );
+  try {
+    const data = await fetchJson(
+      `https://api.mercadolibre.com/sites/${env.MERCADOLIVRE_SITE_ID}/search?${params.toString()}`,
+      { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36" } },
+      "API do Mercado Livre"
+    );
 
-  return (data.results || [])
-    .map((item) => mapMercadoLivreItem(item, campaign))
-    .filter((item) => item.title && item.url && Number.isFinite(item.price));
+    return (data.results || [])
+      .map((item) => mapMercadoLivreItem(item, campaign))
+      .filter((item) => item.title && item.url && Number.isFinite(item.price));
+  } catch (err) {
+    console.error(`[API ML] Falha silenciosa contornada: ${err.message}`);
+    return [];
+  }
 }
 
 async function fetchMercadoLivreProducts({ campaign, env }) {

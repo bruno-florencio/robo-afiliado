@@ -110,9 +110,13 @@ async function extractProductDetails(page) {
   let price = "";
   let originalPrice = "";
 
-  const priceLocator = page.locator('.priceToPay span.a-offscreen, #corePrice_feature_div .a-price span.a-offscreen').first();
+  const priceLocator = page.locator('.priceToPay span.a-offscreen, #corePrice_feature_div .a-price span.a-offscreen, .apexPriceToPay span.a-offscreen, span.a-price span.a-offscreen').first();
   if (await priceLocator.count() > 0) {
      price = await priceLocator.innerText();
+  } else {
+     // Fallback brutal
+     const rawPrice = await page.locator('.priceToPay, .a-price').first().innerText().catch(() => "");
+     price = rawPrice.split('\n').join(''); // Remove quebras de linha se o price whole e fraction vierem separados
   }
 
   const basisLocator = page.locator('span.a-text-price span.a-offscreen').first();
@@ -181,6 +185,7 @@ async function runAmazonAgent() {
     locale: "pt-BR",
     timezoneId: "America/Sao_Paulo",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
+    args: ["--disable-blink-features=AutomationControlled", "--no-sandbox", "--disable-setuid-sandbox"]
   };
 
   const sessionPath = path.resolve(process.cwd(), "amazon-session.json");
