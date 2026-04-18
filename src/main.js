@@ -11,24 +11,31 @@ async function startBot() {
 
   const run = async () => {
     try {
-      // Executa primeiro o script com o Playwright (Mercado Livre seguro)
-      console.log(`[Agendador] Acionando robo do Mercado Livre (Playwright)...`);
+      console.log(`[Agendador] Acionando robô do Mercado Livre (Playwright)...`);
       const { exec } = require("child_process");
+      
       exec("npm run mercadolivre:run-once", (error, stdout, stderr) => {
         if (error) {
           console.error(`[Agendador] Erro no bot do MercadoLivre: ${error.message}`);
-          return;
+        } else if (stdout) {
+          console.log(stdout.trim());
         }
-        if (stdout) console.log(stdout.trim());
+
+        // Após concluir o Mercado Livre, aciona o da Amazon para não encavalar o processamento
+        console.log(`[Agendador] Acionando robô da Amazon (Playwright)...`);
+        exec("npm run amazon:run-once", (errorAmz, stdoutAmz, stderrAmz) => {
+          if (errorAmz) {
+            console.error(`[Agendador] Erro no bot da Amazon: ${errorAmz.message}`);
+          } else if (stdoutAmz) {
+            console.log(stdoutAmz.trim());
+          }
+        });
       });
 
-      // Em paralelo, tenta rodar o ciclo convencional para campanhas API (Amazon)
-      const result = await runCycle({ config, telegram, historyStore });
-      if (result) {
-        console.log(`[Agendador] Postagem API enviada: ${result.campaignId} -> ${result.product.title}`);
-      }
+      // Roda APIS caso tenham mais algumas ativas no futuro
+      await runCycle({ config, telegram, historyStore });
     } catch (e) {
-      console.error("[Agendador] Erro no ciclo de postagem API:", e);
+      console.error("[Agendador] Erro estrutural no ciclo:", e);
     }
   };
 

@@ -7,6 +7,7 @@
     "start": "node src/main.js",
     "run:once": "node src/main.js --once",
     "mercadolivre:run-once": "node src/agents/mercadolivre-browser.js",
+    "amazon:run-once": "node src/agents/amazon-browser.js",
     "social:plan": "node src/social/index.js",
     "admin:start": "node src/admin/server.js",
     "check": "node --check src/main.js && node --check src/providers/amazon-paapi.js && node --check src/providers/mercadolivre.js && node --check src/lib/http.js && node --check src/social/index.js && node --check src/social/config.js && node --check src/admin/server.js && node --check src/admin/auth.js && node --check src/admin/config.js && node --check src/admin/state.js && node --check src/admin/templates.js && node --check src/agents/mercadolivre-browser.js"
