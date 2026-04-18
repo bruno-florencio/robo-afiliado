@@ -124,6 +124,32 @@ async function extractProductDetails(page) {
   }
   
   let installments = await page.locator('#installmentCalculator_feature_div .best-offer-name').innerText().catch(() => "");
+  if (!installments) {
+     // Fallback: Busca via Regex em qualquer span da página que cite "em até Xx de R$ Y sem juros"
+     installments = await page.evaluate(() => {
+       const span = Array.from(document.querySelectorAll('span')).find(s => s.innerText && s.innerText.match(/x de R\$.*sem juros/i) && s.innerText.length < 80);
+       return span ? span.innerText.trim() : "";
+     });
+  }
+
+  // Tenta extrair Destaques/Features
+  const features = await page.evaluate(() => {
+    let fts = Array.from(document.querySelectorAll('#productOverview_feature_div tr')).map(tr => {
+      const cols = tr.querySelectorAll('td');
+      if (cols.length === 2) {
+        // Limpa possíveis duplicações de texto truncado ("... Ver mais")
+        const val = cols[1].innerText.replace(/\n.*/g, '').trim();
+        return `${cols[0].innerText.trim()}: ${val}`;
+      }
+      return null;
+    }).filter(Boolean);
+    
+    // Se não encontrou a tabela, tenta pegar os bullets tradicionais (max 3)
+    if (fts.length === 0) {
+      fts = Array.from(document.querySelectorAll('#feature-bullets li span.a-list-item')).map(s => s.innerText.trim()).filter(Boolean).slice(0, 3);
+    }
+    return fts.slice(0, 4); // Retorna no maximo 4 destaques
+  });
 
   // Imagem principal
   let imageUrl = await page.locator('#landingImage').getAttribute("src").catch(() => "");
@@ -141,6 +167,7 @@ async function extractProductDetails(page) {
     price: cleanNumber(price),
     originalPrice: cleanNumber(originalPrice),
     installments: installments.trim(),
+    features,
     imageUrl,
     url: page.url()
   };
