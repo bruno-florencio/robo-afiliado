@@ -201,7 +201,7 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
             cleanUrl = urlObj.toString();
           } catch (e) { }
 
-          if (!historyStore.hasRecentProduct({ campaignId, productId: cleanUrl })) {
+          if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
             productLink = href;
             productIdForHistory = cleanUrl;
             break;
@@ -499,7 +499,7 @@ async function runMercadoLivreAgent() {
       imageUrl: product.imageUrl,
     });
 
-    historyStore.remember({
+    await historyStore.remember({
       campaignId: campaign.id,
       productId: product.id,
     });

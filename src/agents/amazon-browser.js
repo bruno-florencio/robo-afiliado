@@ -89,7 +89,7 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
       // Se não tem barra ou https normaliza
       if (cleanUrl.startsWith("/")) cleanUrl = "https://www.amazon.com.br" + cleanUrl;
 
-      if (!historyStore.hasRecentProduct({ campaignId, productId: cleanUrl })) {
+      if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
          console.log(`-> [Amazon] Oferta inédita escolhida!`);
          return cleanUrl;
       }
@@ -296,7 +296,7 @@ async function runAmazonAgent() {
       imageUrl: product.imageUrl,
     });
 
-    historyStore.remember({ campaignId: campaign.id, productId: targetUrl });
+    await historyStore.remember({ campaignId: campaign.id, productId: targetUrl });
     
     const outputPath = path.resolve(process.cwd(), "data/amazon/last-product.json");
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
