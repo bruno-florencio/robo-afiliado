@@ -418,13 +418,27 @@ async function runMercadoLivreAgent() {
   const telegram = createTelegramClient(env.TELEGRAM_BOT_TOKEN);
   const isCloud = !!process.env.RENDER || !!process.env.CI || process.env.NODE_ENV === "production";
   
+  const cloudArgs = isCloud ? [
+    "--disable-blink-features=AutomationControlled",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-gpu",
+    "--disable-extensions",
+    "--disable-background-networking",
+    "--disable-default-apps",
+    "--mute-audio",
+    "--no-first-run",
+    "--js-flags=--max-old-space-size=256",
+  ] : ["--disable-blink-features=AutomationControlled", "--no-sandbox", "--disable-setuid-sandbox"];
+
   const launchOptions = {
     headless: isCloud,
-    viewport: { width: 1440, height: 960 },
+    viewport: { width: 1280, height: 800 },
     locale: "pt-BR",
     timezoneId: "America/Sao_Paulo",
     userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
-    args: ["--disable-blink-features=AutomationControlled", "--no-sandbox", "--disable-setuid-sandbox"]
+    args: cloudArgs,
   };
 
   const sessionPath = path.resolve(process.cwd(), "ml-session.json");

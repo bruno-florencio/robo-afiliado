@@ -2,7 +2,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 function createHistoryStore() {
-  const filePath = path.resolve(process.cwd(), "data/history.json");
+  // No Render, /tmp persiste entre SIGTERM/restarts do mesmo container
+  // Sem isso, o history.json some e o bot repete os posts
+  const isCloud = !!process.env.RENDER;
+  const filePath = isCloud
+    ? "/tmp/affiliate-history.json"
+    : path.resolve(process.cwd(), "data/history.json");
 
   function read() {
     if (!fs.existsSync(filePath)) {

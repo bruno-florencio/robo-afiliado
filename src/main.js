@@ -36,17 +36,29 @@ async function startBot() {
     }
   };
 
-  if (config.env.RUN_ON_START) {
-    console.log(`[Agendador] Rodando ciclo inicial...`);
+  const intervalMs = config.env.POST_INTERVAL_MINUTES * 60 * 1000;
+  
+  // No Render, aguarda 5 minutos antes do primeiro ciclo para evitar re-postagem
+  // imediata após SIGTERM/restart (filesystem efêmero zera o history.json)
+  // Localmente, respeita RUN_ON_START para testes
+  const isCloud = !!process.env.RENDER;
+  const initialDelay = isCloud ? 5 * 60 * 1000 : 0;
+
+  if (!isCloud && config.env.RUN_ON_START) {
+    console.log(`[Agendador] Rodando ciclo inicial imediato (modo local)...`);
     await run();
+  } else if (isCloud) {
+    console.log(`[Agendador] Nuvem detectada. Primeiro ciclo em 5 minutos (proteção anti-SIGTERM).`);
   }
 
-  const intervalMs = config.env.POST_INTERVAL_MINUTES * 60 * 1000;
-  console.log(`[Agendador] Loop automático ativado (a cada ${config.env.POST_INTERVAL_MINUTES} minutos).`);
+  setTimeout(() => {
+    run().catch(e => console.error("[Agendador] Erro no ciclo inicial agendado:", e));
+    setInterval(() => {
+      run().catch(e => console.error("[Agendador] Fatality no motor:", e));
+    }, intervalMs);
+  }, isCloud ? initialDelay : intervalMs);
 
-  setInterval(() => {
-    run().catch(e => console.error("[Agendador] Fatality no motor:", e));
-  }, intervalMs);
+  console.log(`[Agendador] Loop automático ativado (a cada ${config.env.POST_INTERVAL_MINUTES} minutos).`);
 }
 
 async function main() {
