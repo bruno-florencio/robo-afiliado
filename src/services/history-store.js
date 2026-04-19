@@ -19,24 +19,24 @@ function createHistoryStore() {
   return {
     async hasRecentProduct({ campaignId, productId }) {
       const data = read();
-      const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+      const now = Date.now();
+      const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
       return data.sentProducts.some((item) => {
         if (item.campaignId !== campaignId || item.productId !== productId) return false;
         if (!item.sentAt) return false;
-        const sentDate = new Date(item.sentAt).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
-        return sentDate === today;
+        return (now - new Date(item.sentAt).getTime()) < TWENTY_FOUR_HOURS;
       });
     },
 
     async remember({ campaignId, productId }) {
       const data = read();
-      const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+      const now = Date.now();
+      const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-      // Mantém apenas produtos do dia atual (limpeza automática do histórico diário)
+      // Mantém apenas produtos das últimas 24 horas (limpeza automática)
       const validHistory = data.sentProducts.filter((item) => {
         if (!item.sentAt) return false;
-        const sentDate = new Date(item.sentAt).toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
-        return sentDate === today;
+        return (now - new Date(item.sentAt).getTime()) < TWENTY_FOUR_HOURS;
       });
 
       const nextProducts = [
