@@ -177,40 +177,62 @@ async function loginIfNeeded(page, env) {
 }
 
 async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
-  const productSelectors = [
-    'a[href*="/p/"]',
-    'a.ui-search-link',
-    'a.poly-component__title',
-    'a[href*="MLB"]',
-  ];
-
   let productLink = null;
   let productIdForHistory = null;
+  const maxPages = 20;
 
-  for (const selector of productSelectors) {
-    const locators = await page.locator(selector).all();
-    if (locators.length > 0) {
-      for (const locator of locators) {
-        const href = await locator.getAttribute("href");
-        if (href) {
-          let cleanUrl = href;
-          try {
-            const urlObj = new URL(href);
-            urlObj.search = "";
-            urlObj.hash = "";
-            cleanUrl = urlObj.toString();
-          } catch (e) { }
+  const combinedSelector = 'a[href*="/p/"], a.ui-search-link, a.poly-component__title, a[href*="MLB"]';
 
-          if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
-            productLink = href;
-            productIdForHistory = cleanUrl;
-            break;
-          }
+  for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+    const locators = await page.locator(combinedSelector).all();
+    
+    for (const locator of locators) {
+      const href = await locator.getAttribute("href");
+      if (href) {
+        let cleanUrl = href;
+        try {
+          const urlObj = new URL(href);
+          urlObj.search = "";
+          urlObj.hash = "";
+          cleanUrl = urlObj.toString();
+        } catch (e) { }
+
+        if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
+          productLink = href;
+          productIdForHistory = cleanUrl;
+          break;
         }
       }
-      if (productLink) {
+    }
+    
+    if (productLink) {
+      break;
+    }
+    
+    console.log(`[MercadoLivre] Nenhum produto inédito na página ${pageNum}. Tentando ir para a próxima página...`);
+    
+    const nextPaginationSelectors = [
+      'li.andes-pagination__button--next a',
+      'a.andes-pagination__link[title="Seguinte"]',
+      'a.andes-pagination__link[title="Siguiente"]',
+      '.andes-pagination__button--next button'
+    ];
+    
+    let clickedNext = false;
+    for (const sel of nextPaginationSelectors) {
+      const btn = page.locator(sel).first();
+      if (await btn.count() > 0 && await btn.isVisible()) {
+        await btn.click();
+        await page.waitForLoadState("domcontentloaded").catch(() => {});
+        await page.waitForTimeout(3000);
+        clickedNext = true;
         break;
       }
+    }
+    
+    if (!clickedNext) {
+      console.log(`[MercadoLivre] Botão de próxima página não encontrado ou inativo.`);
+      break;
     }
   }
 
