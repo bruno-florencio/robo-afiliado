@@ -448,19 +448,6 @@ function renderDashboard({
           </article>
 
           <article class="panel span-12">
-            <h3>Perfis e plano social</h3>
-            <p>Base para o agente de conteudo operar LinkedIn e Instagram por marca.</p>
-            <form method="post" action="${adminPath}/save-social">
-              <label class="label" for="socialJson">config/social-accounts.json</label>
-              <textarea id="socialJson" name="json">${escapeHtml(
-                JSON.stringify(social, null, 2)
-              )}</textarea>
-              <div class="toolbar" style="margin-top: 18px;">
-                <button type="submit">Salvar configuracao social</button>
-              </div>
-            </form>
-          </article>
-          <article class="panel span-12">
             <div class="toolbar">
               <div>
                 <h3>Terminal Sidecar (Logs Ao Vivo)</h3>
