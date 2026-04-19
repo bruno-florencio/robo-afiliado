@@ -361,6 +361,14 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
     return Number.isFinite(parsed) ? parsed : undefined;
   };
 
+  let finalLoadedUrl = detailPage.url();
+  try {
+    const urlObj = new URL(finalLoadedUrl);
+    urlObj.search = "";
+    urlObj.hash = "";
+    finalLoadedUrl = urlObj.toString();
+  } catch (e) {}
+
   const product = {
     id: productIdForHistory,
     title: (title || "").trim(),
@@ -368,7 +376,7 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
     originalPrice: cleanNumber(originalPriceText),
     installments: installmentsText,
     coupon: couponText,
-    url: productLink,
+    url: finalLoadedUrl,
     imageUrl,
     features,
     source: "mercadolivre",

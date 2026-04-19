@@ -64,40 +64,55 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
   await page.waitForSelector('[data-testid="product-card"], [class*="GridItem-module__container"]', { timeout: 15000 }).catch(() => { });
 
   const dealCards = page.locator('[data-testid="product-card"], [class*="GridItem-module__container"]');
-  const count = await dealCards.count();
-  console.log(`-> [Amazon] ${count} cartões de oferta detectados na tela.`);
+  
+  let checkedCount = 0;
+  for (let scrollAttempts = 0; scrollAttempts < 15; scrollAttempts++) {
+    const count = await dealCards.count();
+    console.log(`-> [Amazon] Analisando até ${count} cartões carregados (scroll ${scrollAttempts})...`);
+    
+    for (let i = checkedCount; i < count; i++) {
+      const card = dealCards.nth(i);
+      let linkLocator = card.locator('a.a-link-normal').first();
 
-  for (let i = 0; i < count; i++) {
-    const card = dealCards.nth(i);
-    let linkLocator = card.locator('a.a-link-normal').first();
-
-    if (await linkLocator.count() === 0) {
-      linkLocator = card.locator('a').first();
-    }
-
-    if (await linkLocator.count() > 0) {
-      const dealUrl = await linkLocator.getAttribute("href");
-
-      let cleanUrl = dealUrl;
-      try {
-        const fullUrl = new URL(dealUrl, "https://www.amazon.com.br");
-        // Remove todos os parametros de rastreamento (ref, pf_rd_r, etc) que a Amazon rotaciona a cada refresh
-        fullUrl.search = "";
-        cleanUrl = fullUrl.toString();
-      } catch (e) { }
-
-      // Se não tem barra ou https normaliza
-      if (cleanUrl.startsWith("/")) cleanUrl = "https://www.amazon.com.br" + cleanUrl;
-
-      if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
-        console.log(`-> [Amazon] Oferta inédita escolhida!`);
-        return cleanUrl;
+      if (await linkLocator.count() === 0) {
+        linkLocator = card.locator('a').first();
       }
+
+      if (await linkLocator.count() > 0) {
+        const dealUrl = await linkLocator.getAttribute("href");
+
+        let cleanUrl = dealUrl;
+        try {
+          const fullUrl = new URL(dealUrl, "https://www.amazon.com.br");
+          fullUrl.search = "";
+          cleanUrl = fullUrl.toString();
+        } catch (e) { }
+
+        if (cleanUrl.startsWith("/")) cleanUrl = "https://www.amazon.com.br" + cleanUrl;
+
+        if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
+          console.log(`-> [Amazon] Oferta inédita escolhida!`);
+          return cleanUrl;
+        }
+      }
+    }
+    
+    checkedCount = count;
+    console.log("-> [Amazon] Sem ofertas inéditas visíveis. Rolando a página para carregar mais...");
+    await page.evaluate(() => window.scrollBy(0, 1500));
+    await page.waitForTimeout(3000);
+    
+    const nextBtn = page.locator('li.a-last a, ul.a-pagination li:last-child a').first();
+    if (await nextBtn.isVisible().catch(() => false)) {
+      console.log("-> [Amazon] Clicando no botão de Próxima Página...");
+      await nextBtn.click();
+      await page.waitForTimeout(4000);
+      checkedCount = 0;
     }
   }
 
   await saveDebugSnapshot(page, "amazon-deals-none-available");
-  throw new Error("Nenhuma oferta inédita encontrada na primeira tela de Deals.");
+  throw new Error("Nenhuma oferta inédita encontrada mesmo após rolar/paginar a tela de Deals múltiplas vezes.");
 }
 
 async function extractProductDetails(page) {
