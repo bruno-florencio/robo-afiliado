@@ -13,7 +13,7 @@ async function startBot() {
     try {
       console.log(`[Agendador] Acionando robô do Mercado Livre (Playwright)...`);
       const { exec } = require("child_process");
-      
+
       exec("npm run mercadolivre:run-once", (error, stdout, stderr) => {
         if (stdout) console.log(stdout.trim());
         if (stderr) console.error(stderr.trim());
@@ -37,7 +37,7 @@ async function startBot() {
   };
 
   const intervalMs = config.env.POST_INTERVAL_MINUTES * 60 * 1000;
-  
+
   // No Render, aguarda 5 minutos antes do primeiro ciclo para evitar re-postagem
   // imediata após SIGTERM/restart (filesystem efêmero zera o history.json)
   // Localmente, respeita RUN_ON_START para testes

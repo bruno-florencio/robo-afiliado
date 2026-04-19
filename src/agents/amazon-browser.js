@@ -44,9 +44,9 @@ async function loginIfNeeded(page, env) {
   }
 
   if (await page.locator('text=SiteStripe').count() === 0) {
-     console.log("-> [Amazon] ATENÇÃO: Barra SiteStripe não detectada! Pode estar pedindo 2FA/Captcha.");
-     await saveDebugSnapshot(page, "amazon-login-falha-ou-captcha");
-     throw new Error("Não foi possível acessar a barra de Afiliados. Verifique se a Amazon exigiu Captcha/SMS.");
+    console.log("-> [Amazon] ATENÇÃO: Barra SiteStripe não detectada! Pode estar pedindo 2FA/Captcha.");
+    await saveDebugSnapshot(page, "amazon-login-falha-ou-captcha");
+    throw new Error("Não foi possível acessar a barra de Afiliados. Verifique se a Amazon exigiu Captcha/SMS.");
   }
 }
 
@@ -59,10 +59,10 @@ async function waitForAny(page, selectors, timeout = 10000) {
 
 async function extractDealsFromGrid(page, historyStore, campaignId) {
   console.log("-> [Amazon] Analisando as Ofertas do Dia...");
-  
+
   // A classe das ofertas muda frequentemente, vamos tentar alguns seletores comuns da Grid de Deals
-  await page.waitForSelector('[data-testid="product-card"], [class*="GridItem-module__container"]', { timeout: 15000 }).catch(() => {});
-  
+  await page.waitForSelector('[data-testid="product-card"], [class*="GridItem-module__container"]', { timeout: 15000 }).catch(() => { });
+
   const dealCards = page.locator('[data-testid="product-card"], [class*="GridItem-module__container"]');
   const count = await dealCards.count();
   console.log(`-> [Amazon] ${count} cartões de oferta detectados na tela.`);
@@ -70,19 +70,19 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
   for (let i = 0; i < count; i++) {
     const card = dealCards.nth(i);
     let linkLocator = card.locator('a.a-link-normal').first();
-    
+
     if (await linkLocator.count() === 0) {
       linkLocator = card.locator('a').first();
     }
-    
+
     if (await linkLocator.count() > 0) {
       const dealUrl = await linkLocator.getAttribute("href");
-      
+
       let cleanUrl = dealUrl;
       try {
         const fullUrl = new URL(dealUrl, "https://www.amazon.com.br");
         // Remove todos os parametros de rastreamento (ref, pf_rd_r, etc) que a Amazon rotaciona a cada refresh
-        fullUrl.search = ""; 
+        fullUrl.search = "";
         cleanUrl = fullUrl.toString();
       } catch (e) { }
 
@@ -90,8 +90,8 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
       if (cleanUrl.startsWith("/")) cleanUrl = "https://www.amazon.com.br" + cleanUrl;
 
       if (!(await historyStore.hasRecentProduct({ campaignId, productId: cleanUrl }))) {
-         console.log(`-> [Amazon] Oferta inédita escolhida!`);
-         return cleanUrl;
+        console.log(`-> [Amazon] Oferta inédita escolhida!`);
+        return cleanUrl;
       }
     }
   }
@@ -102,34 +102,34 @@ async function extractDealsFromGrid(page, historyStore, campaignId) {
 
 async function extractProductDetails(page) {
   console.log("-> [Amazon] Extraindo informações do Produto...");
-  
+
   let title = await page.locator('#productTitle').innerText().catch(() => "");
-  
+
   // Amazon tem várias formas de mostrar preço (priceToPay, apexPrice, etc)
   let price = "";
   let originalPrice = "";
 
   const priceLocator = page.locator('.priceToPay span.a-offscreen, #corePrice_feature_div .a-price span.a-offscreen, .apexPriceToPay span.a-offscreen, span.a-price span.a-offscreen').first();
   if (await priceLocator.count() > 0) {
-     price = await priceLocator.innerText();
+    price = await priceLocator.innerText();
   } else {
-     // Fallback brutal
-     const rawPrice = await page.locator('.priceToPay, .a-price').first().innerText().catch(() => "");
-     price = rawPrice.split('\n').join(''); // Remove quebras de linha se o price whole e fraction vierem separados
+    // Fallback brutal
+    const rawPrice = await page.locator('.priceToPay, .a-price').first().innerText().catch(() => "");
+    price = rawPrice.split('\n').join(''); // Remove quebras de linha se o price whole e fraction vierem separados
   }
 
   const basisLocator = page.locator('span.a-text-price span.a-offscreen').first();
   if (await basisLocator.count() > 0) {
-     originalPrice = await basisLocator.innerText();
+    originalPrice = await basisLocator.innerText();
   }
-  
+
   let installments = await page.locator('#installmentCalculator_feature_div .best-offer-name').innerText().catch(() => "");
   if (!installments) {
-     // Fallback: Busca via Regex em qualquer span da página que cite "em até Xx de R$ Y sem juros"
-     installments = await page.evaluate(() => {
-       const span = Array.from(document.querySelectorAll('span')).find(s => s.innerText && s.innerText.match(/x de R\$.*sem juros/i) && s.innerText.length < 80);
-       return span ? span.innerText.trim() : "";
-     });
+    // Fallback: Busca via Regex em qualquer span da página que cite "em até Xx de R$ Y sem juros"
+    installments = await page.evaluate(() => {
+      const span = Array.from(document.querySelectorAll('span')).find(s => s.innerText && s.innerText.match(/x de R\$.*sem juros/i) && s.innerText.length < 80);
+      return span ? span.innerText.trim() : "";
+    });
   }
 
   // Tenta extrair Destaques/Features
@@ -143,7 +143,7 @@ async function extractProductDetails(page) {
       }
       return null;
     }).filter(Boolean);
-    
+
     // Se não encontrou a tabela, tenta pegar os bullets tradicionais (max 3)
     if (fts.length === 0) {
       fts = Array.from(document.querySelectorAll('#feature-bullets li span.a-list-item')).map(s => s.innerText.trim()).filter(Boolean).slice(0, 3);
@@ -175,31 +175,31 @@ async function extractProductDetails(page) {
 
 async function generateAffiliateLink(page) {
   console.log("-> [Amazon] Requisitando SiteStripe (Amzn.to)...");
-  
+
   // Tenta achar o botão "Texto" antigo, se não achar tenta o "Obter link" novo
   let siteStripeBtn = page.locator('#amzn-ss-text-link-button').first();
   if (await siteStripeBtn.count() === 0) {
-     siteStripeBtn = page.locator('text="Obter link"').first();
+    siteStripeBtn = page.locator('text="Obter link"').first();
   }
-  
+
   if (await siteStripeBtn.count() === 0) {
-     await saveDebugSnapshot(page, "amazon-no-sitestripe");
-     throw new Error("Botão de obter link do SiteStripe não encontrado na página do produto.");
+    await saveDebugSnapshot(page, "amazon-no-sitestripe");
+    throw new Error("Botão de obter link do SiteStripe não encontrado na página do produto.");
   }
-  
+
   await siteStripeBtn.click();
-  
+
   // Espera a caixa de diálogo do link carregar (seja o textarea antigo ou novo)
-  await page.waitForSelector('#amzn-ss-text-shortlink-textarea, textarea', { timeout: 10000 }).catch(() => {});
-  
+  await page.waitForSelector('#amzn-ss-text-shortlink-textarea, textarea', { timeout: 10000 }).catch(() => { });
+
   const textArea = page.locator('#amzn-ss-text-shortlink-textarea, textarea').first();
   if (await textArea.count() > 0) {
-     const shortUrl = await textArea.inputValue();
-     if (shortUrl && shortUrl.includes("amzn.to")) {
-        return shortUrl;
-     }
+    const shortUrl = await textArea.inputValue();
+    if (shortUrl && shortUrl.includes("amzn.to")) {
+      return shortUrl;
+    }
   }
-  
+
   await saveDebugSnapshot(page, "amazon-linkbuilder-failed");
   throw new Error("Falha ao puxar o amzn.to do painel SiteStripe.");
 }
@@ -210,7 +210,7 @@ async function runAmazonAgent() {
   const historyStore = createHistoryStore();
   const telegram = createTelegramClient(env.TELEGRAM_BOT_TOKEN);
   const isCloud = !!process.env.RENDER || !!process.env.CI || process.env.NODE_ENV === "production";
-  
+
   const cloudArgs = isCloud ? [
     "--disable-blink-features=AutomationControlled",
     "--no-sandbox",
@@ -255,19 +255,19 @@ async function runAmazonAgent() {
   await context.addInitScript(() => {
     Object.defineProperty(navigator, "webdriver", { get: () => undefined });
   });
-  
+
   const page = context.pages()[0] || (await context.newPage());
 
   try {
     await page.goto(AMAZON_DEALS_URL, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(3000);
-    
+
     await loginIfNeeded(page, env);
-    
+
     // As vezes o login redireciona, voltar pra Offers
     if (!page.url().includes("/deals")) {
-       await page.goto(AMAZON_DEALS_URL, { waitUntil: "domcontentloaded" });
-       await page.waitForTimeout(3000);
+      await page.goto(AMAZON_DEALS_URL, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(3000);
     }
 
     const campaign = config.campaigns.find(c => c.id === "amazon-eletronicos") || {
@@ -284,7 +284,7 @@ async function runAmazonAgent() {
     console.log(`-> [Amazon] Navegando para produto: ${targetUrl}`);
     await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(3000);
-    
+
     const product = await extractProductDetails(page);
     const affiliateUrl = await generateAffiliateLink(page);
     product.url = affiliateUrl; // Substitui pela curtinha do affiliado
@@ -297,7 +297,7 @@ async function runAmazonAgent() {
     });
 
     await historyStore.remember({ campaignId: campaign.id, productId: targetUrl });
-    
+
     const outputPath = path.resolve(process.cwd(), "data/amazon/last-product.json");
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, JSON.stringify(product, null, 2));
@@ -306,7 +306,7 @@ async function runAmazonAgent() {
     console.log(`✅ [Amazon] Link afiliado gerado: ${affiliateUrl}`);
   } finally {
     await context.close().catch(() => { });
-    if (browser) await browser.close().catch(() => {});
+    if (browser) await browser.close().catch(() => { });
   }
 }
 

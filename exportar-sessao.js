@@ -14,7 +14,7 @@ async function exportSession() {
   });
 
   const page = context.pages()[0] || await context.newPage();
-  
+
   console.log("-> Navegando para o Mercado Livre...");
   await page.goto("https://www.mercadolivre.com.br/afiliados/linkbuilder#hub");
 
@@ -24,9 +24,9 @@ async function exportSession() {
 
   // Aguarda até o usuário completar o login e o elemento de "Gerar Link" aparecer
   await page.waitForSelector('button:has-text("Gerar"), input[placeholder*="http"]', { timeout: 300000 }); // 5 min de timeout
-  
+
   console.log("\n✅ Login detectado com sucesso!");
-  
+
   // Salva o passaporte (cookies e local storage) de forma não-criptografada
   const sessionPath = path.resolve(process.cwd(), "ml-session.json");
   await context.storageState({ path: sessionPath });

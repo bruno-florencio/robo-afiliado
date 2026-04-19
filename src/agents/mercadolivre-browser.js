@@ -185,7 +185,7 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
 
   for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
     const locators = await page.locator(combinedSelector).all();
-    
+
     for (const locator of locators) {
       const href = await locator.getAttribute("href");
       if (href) {
@@ -204,32 +204,32 @@ async function extractFirstUnpublishedOffer(page, historyStore, campaignId) {
         }
       }
     }
-    
+
     if (productLink) {
       break;
     }
-    
+
     console.log(`[MercadoLivre] Nenhum produto inédito na página ${pageNum}. Tentando ir para a próxima página...`);
-    
+
     const nextPaginationSelectors = [
       'li.andes-pagination__button--next a',
       'a.andes-pagination__link[title="Seguinte"]',
       'a.andes-pagination__link[title="Siguiente"]',
       '.andes-pagination__button--next button'
     ];
-    
+
     let clickedNext = false;
     for (const sel of nextPaginationSelectors) {
       const btn = page.locator(sel).first();
       if (await btn.count() > 0 && await btn.isVisible()) {
         await btn.click();
-        await page.waitForLoadState("domcontentloaded").catch(() => {});
+        await page.waitForLoadState("domcontentloaded").catch(() => { });
         await page.waitForTimeout(3000);
         clickedNext = true;
         break;
       }
     }
-    
+
     if (!clickedNext) {
       console.log(`[MercadoLivre] Botão de próxima página não encontrado ou inativo.`);
       break;
@@ -439,7 +439,7 @@ async function runMercadoLivreAgent() {
   const historyStore = createHistoryStore();
   const telegram = createTelegramClient(env.TELEGRAM_BOT_TOKEN);
   const isCloud = !!process.env.RENDER || !!process.env.CI || process.env.NODE_ENV === "production";
-  
+
   const cloudArgs = isCloud ? [
     "--disable-blink-features=AutomationControlled",
     "--no-sandbox",
@@ -535,7 +535,7 @@ async function runMercadoLivreAgent() {
   } finally {
     await context.close().catch(() => { });
     if (browser) {
-       await browser.close().catch(() => {});
+      await browser.close().catch(() => { });
     }
   }
 }

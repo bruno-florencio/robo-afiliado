@@ -15,7 +15,7 @@ async function exportSessionAmazon() {
   });
 
   const page = context.pages()[0] || await context.newPage();
-  
+
   console.log("-> Navegando para a página inicial da Amazon Brasil...");
   await page.goto("https://www.amazon.com.br/");
 
@@ -25,9 +25,9 @@ async function exportSessionAmazon() {
 
   // Aguarda até o usuário completar o login e a barra SiteStripe carregar
   await page.locator('text=SiteStripe').first().waitFor({ state: 'visible', timeout: 300000 });
-  
+
   console.log("\n✅ Barra SiteStripe detectada com sucesso! Você está logado.");
-  
+
   // Salva o passaporte (cookies)
   const sessionPath = path.resolve(process.cwd(), "amazon-session.json");
   await context.storageState({ path: sessionPath });
