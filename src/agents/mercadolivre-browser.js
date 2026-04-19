@@ -410,26 +410,29 @@ async function generateAffiliateLink(page, productUrl, env) {
     'button:has-text("Montar")',
     'button[type="submit"]',
   ]);
-  await page.waitForTimeout(2500);
-
+  
   const candidates = [
     'input[value^="http"]',
     'textarea',
     '[data-testid*="link"] input',
   ];
 
-  for (const selector of candidates) {
-    const locator = page.locator(selector).last();
-    if ((await locator.count()) > 0) {
-      const value = await locator.inputValue().catch(() => null);
-      if (value && value.startsWith("http")) {
-        return value;
+  for (let i = 0; i < 15; i++) {
+    await page.waitForTimeout(1000);
+    for (const selector of candidates) {
+      const locator = page.locator(selector).last();
+      if ((await locator.count()) > 0) {
+        const value = await locator.inputValue().catch(() => null);
+        if (value && value.startsWith("http")) {
+          return value;
+        }
       }
     }
   }
 
   await saveDebugSnapshot(page, "mercadolivre-linkbuilder-no-result");
-  throw new Error("Nao consegui capturar o link de afiliado gerado.");
+  await saveDebugHtml(page, "mercadolivre-linkbuilder-no-result");
+  throw new Error("Nao consegui capturar o link de afiliado gerado dentro do tempo limite.");
 }
 
 async function runMercadoLivreAgent() {

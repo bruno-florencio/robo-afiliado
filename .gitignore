@@ -11,6 +11,7 @@ id_rsa.pub
 ssh-key-*
 
 # Sessões do browser salvas localmente
-*-session.json
-amazon-session.json
-ml-session.json
+# Sessões do browser salvas localmente
+# *-session.json
+# amazon-session.json
+# ml-session.json
