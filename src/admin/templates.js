@@ -416,7 +416,7 @@ function renderDashboard({
             <p>Edite o JSON inteiro com cautela. O backend grava o arquivo em disco.</p>
             <form method="post" action="${adminPath}/save-campaigns">
               <label class="label" for="campaignsJson">config/campaigns.json</label>
-              <textarea id="campaignsJson" name="json">${escapeHtml(
+              <textarea id="campaignsJson" name="json" style="min-height: 540px;">${escapeHtml(
                 JSON.stringify(campaigns, null, 2)
               )}</textarea>
               <div class="toolbar" style="margin-top: 18px;">
@@ -437,8 +437,10 @@ function renderDashboard({
                         (item) => `
                           <div class="list-item">
                             <strong>${escapeHtml(item.campaignId)}</strong><br />
-                            <span class="muted">${escapeHtml(item.productId)}</span><br />
-                            <span class="muted">${escapeHtml(item.sentAt)}</span>
+                            <div class="muted" style="word-break: break-all; font-size: 11px; margin: 6px 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">
+                              ${escapeHtml(item.productId)}
+                            </div>
+                            <span class="muted" style="font-size: 11px;">${escapeHtml(item.sentAt)}</span>
                           </div>
                         `
                       )
