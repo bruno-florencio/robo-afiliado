@@ -501,12 +501,6 @@ async function runMercadoLivreAgent() {
   const page = context.pages()[0] || (await context.newPage());
 
   try {
-    await page.goto(offersUrl, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(2000);
-    await loginIfNeeded(page, env);
-    await page.goto(offersUrl, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(2500);
-
     const campaign = {
       id: "mercadolivre-browser-agent",
       messageTemplate: "Oferta do dia no Mercado Livre",
@@ -521,28 +515,61 @@ async function runMercadoLivreAgent() {
       hashtags: ["mercadolivre", "oferta", "promo"],
     };
 
-    const product = await extractFirstUnpublishedOffer(page, historyStore, campaign.id);
-    const affiliateUrl = await generateAffiliateLink(page, product.url, env);
-    product.url = affiliateUrl;
+    let success = false;
+    const MAX_RETRIES = 5;
 
-    const caption = formatMessage({ campaign, product });
-    await telegram.sendOffer({
-      chatId: env.TELEGRAM_CHAT_ID,
-      caption,
-      imageUrl: product.imageUrl,
-    });
+    for (let attempts = 1; attempts <= MAX_RETRIES; attempts++) {
+      console.log(`\n[MercadoLivre] Iniciando tentativa ${attempts}/${MAX_RETRIES} de postagem...`);
+      await page.goto(offersUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(2000);
+      await loginIfNeeded(page, env);
+      await page.goto(offersUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(2500);
 
-    await historyStore.remember({
-      campaignId: campaign.id,
-      productId: product.id,
-    });
+      const product = await extractFirstUnpublishedOffer(page, historyStore, campaign.id);
+      
+      try {
+        const affiliateUrl = await generateAffiliateLink(page, product.url, env);
+        product.url = affiliateUrl;
 
-    const outputPath = path.resolve(process.cwd(), "data/mercadolivre/last-product.json");
-    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-    fs.writeFileSync(outputPath, JSON.stringify(product, null, 2));
+        const caption = formatMessage({ campaign, product });
+        await telegram.sendOffer({
+          chatId: env.TELEGRAM_CHAT_ID,
+          caption,
+          imageUrl: product.imageUrl,
+        });
 
-    console.log(`Produto publicado no Telegram: ${product.title}`);
-    console.log(`Link afiliado: ${affiliateUrl}`);
+        // Marca sucesso definitivo apenas para o que publicou
+        await historyStore.remember({
+          campaignId: campaign.id,
+          productId: product.id,
+        });
+
+        const outputPath = path.resolve(process.cwd(), "data/mercadolivre/last-product.json");
+        fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+        fs.writeFileSync(outputPath, JSON.stringify(product, null, 2));
+
+        console.log(`Produto publicado no Telegram: ${product.title}`);
+        console.log(`Link afiliado: ${affiliateUrl}`);
+        
+        success = true;
+        break; // Postou com sucesso, sai do loop!
+
+      } catch (err) {
+        console.error(`[MercadoLivre] Falha ao gerar link ou postar o produto '${product.title}': ${err.message}`);
+        console.log(`[MercadoLivre] Blacklistando este produto e tentando a próxima oferta na lista...`);
+        // Adiciona ao historyStore para que na próxima iteração ele seja "pulado" como se já estivesse publicado
+        await historyStore.remember({
+          campaignId: campaign.id,
+          productId: product.id,
+        });
+      }
+    }
+
+    if (!success) {
+       throw new Error(`O robô falhou em extrair links de ${MAX_RETRIES} produtos consecutivamente.`);
+    }
+
   } finally {
     await context.close().catch(() => { });
     if (browser) {
