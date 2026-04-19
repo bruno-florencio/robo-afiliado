@@ -460,6 +460,33 @@ function renderDashboard({
               </div>
             </form>
           </article>
+          <article class="panel span-12">
+            <div class="toolbar">
+              <div>
+                <h3>Terminal Sidecar (Logs Ao Vivo)</h3>
+                <p>Veja em tempo real o que o robô está processando nos bastidores da nuvem.</p>
+              </div>
+              <button type="button" onclick="refreshLogs()">Atualizar Agora</button>
+            </div>
+            <textarea id="live-logs" readonly style="width: 100%; height: 500px; margin-top: 16px; background: #080b10; color: #accb5a; font-family: 'Courier New', monospace; font-size: 13px; border: 1px solid var(--line); border-radius: 12px; padding: 12px;"></textarea>
+            <script>
+              function refreshLogs() {
+                 const t = document.getElementById('live-logs');
+                 fetch('${adminPath}/api/logs')
+                   .then(res => res.text())
+                   .then(txt => { 
+                      /* Clean up PM2 ANSI color codes to make logs readable */
+                      const plainTxt = txt.replace(/\\x1b\\[[0-9;]*m/g, '');
+                      t.value = plainTxt; 
+                      t.scrollTop = t.scrollHeight; 
+                   })
+                   .catch(err => { t.value = 'Falha ao carregar logs: ' + err.message; });
+              }
+              // Atualiza logs a cada 8 segundos
+              setInterval(refreshLogs, 8000);
+              refreshLogs();
+            </script>
+          </article>
         </section>
       </main>
     `,

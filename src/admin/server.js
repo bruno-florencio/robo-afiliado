@@ -159,6 +159,16 @@ async function createServer() {
         return;
       }
 
+      if (request.method === "GET" && pathname === `${adminPath}/api/logs`) {
+        const { exec } = require("child_process");
+        // Remove characters de formataçao de cor padrão do PM2 usando replace, ou deixamos a UI lidar
+        exec("pm2 logs robo-afiliado --lines 100 --nostream", (error, stdout, stderr) => {
+          response.writeHead(200, { "content-type": "text/plain; charset=utf-8" });
+          response.end((stdout || "") + "\\n" + (stderr || ""));
+        });
+        return;
+      }
+
       if (request.method === "POST" && pathname === `${adminPath}/save-campaigns`) {
         const body = querystring.parse(await readRequestBody(request));
         const json = JSON.parse(String(body.json || ""));
